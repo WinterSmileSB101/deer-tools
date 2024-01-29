@@ -1,0 +1,1 @@
+https://docs.leancloud.cn/sdk/storage/guide/setup-js/#npm

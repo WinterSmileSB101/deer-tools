@@ -1,9 +1,9 @@
 import { games, insertGame } from '../game';
 
 export default async function Games() {
-  await insertGame().then(() => {
-    games();
-  });
+  // await insertGame().then(() => {
+  //   games();
+  // });
 
   return (
     <>
