@@ -91,7 +91,7 @@ export default async function Home() {
         </div>
       </div>
       <div className="my-10 grid w-full max-w-screen-xl animate-fade-up grid-cols-1 gap-5 px-5 md:grid-cols-3 xl:px-0">
-        {features.map(({ title, description, head, large }) => (
+        {features.map(({ title, description, head, size }) => (
           <Card
             key={title}
             title={title}
@@ -103,7 +103,7 @@ export default async function Home() {
                 head
               )
             }
-            large={large}
+            size={size}
           />
         ))}
       </div>
@@ -116,7 +116,7 @@ const features = [
     title: 'Beautiful, reusable components',
     description:
       'Pre-built beautiful, a11y-first components, powered by [Tailwind CSS](https://tailwindcss.com/), [Radix UI](https://www.radix-ui.com/), and [Framer Motion](https://framer.com/motion)',
-    large: true,
+    size: 'large',
   },
   {
     title: 'Performance first',

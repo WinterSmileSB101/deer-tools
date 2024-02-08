@@ -1,18 +1,19 @@
 import { ReactNode } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { isEqual } from 'lodash';
 
 export interface CardProps {
   head: ReactNode;
   title: string;
   description: string;
-  large?: boolean;
+  size?: 'large';
 }
 
-export default function Card({ title, description, head, large }: CardProps) {
+export default function Card({ title, description, head, size }: CardProps) {
   return (
     <div
       className={`relative col-span-1 h-96 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-md ${
-        large ? 'md:col-span-2' : ''
+        isEqual(size, 'large') ? 'md:col-span-2' : ''
       }`}
     >
       <div className="flex h-60 items-center justify-center">{head}</div>
