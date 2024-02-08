@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 const plugin = require("tailwindcss/plugin");
 
+import { radixThemePreset } from 'radix-themes-tw';
+
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   future: {
@@ -68,4 +71,5 @@ module.exports = {
       addVariant("radix-side-bottom", '&[data-side="bottom"]');
     }),
   ],
+  presets: [radixThemePreset]
 };
