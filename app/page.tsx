@@ -1,19 +1,19 @@
-import Card from "@/components/home/card";
-import { DEPLOY_URL } from "@/lib/constants";
-import { Github, Twitter } from "@/components/shared/icons";
-import WebVitals from "@/components/home/web-vitals";
-import ComponentGrid from "@/components/home/component-grid";
-import Image from "next/image";
-import { nFormatter } from "@/lib/utils";
+import Card from '@/components/card/card';
+import { DEPLOY_URL } from '@/lib/constants';
+import { Github, Twitter } from '@/components/shared/icons';
+import WebVitals from '@/components/home/web-vitals';
+import ComponentGrid from '@/components/home/component-grid';
+import Image from 'next/image';
+import { nFormatter } from '@/lib/utils';
 
 export default async function Home() {
   const { stargazers_count: stars } = await fetch(
-    "https://api.github.com/repos/steven-tey/precedent",
+    'https://api.github.com/repos/steven-tey/precedent',
     {
       ...(process.env.GITHUB_OAUTH_TOKEN && {
         headers: {
           Authorization: `Bearer ${process.env.GITHUB_OAUTH_TOKEN}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       }),
       // data will revalidate every 24 hours
@@ -39,20 +39,20 @@ export default async function Home() {
         </a>
         <h1
           className="animate-fade-up bg-gradient-to-br from-black to-stone-500 bg-clip-text text-center font-display text-4xl font-bold tracking-[-0.02em] text-transparent opacity-0 drop-shadow-sm [text-wrap:balance] md:text-7xl md:leading-[5rem]"
-          style={{ animationDelay: "0.15s", animationFillMode: "forwards" }}
+          style={{ animationDelay: '0.15s', animationFillMode: 'forwards' }}
         >
           Building blocks for your Next project
         </h1>
         <p
           className="mt-6 animate-fade-up text-center text-gray-500 opacity-0 [text-wrap:balance] md:text-xl"
-          style={{ animationDelay: "0.25s", animationFillMode: "forwards" }}
+          style={{ animationDelay: '0.25s', animationFillMode: 'forwards' }}
         >
           An opinionated collection of components, hooks, and utilities for your
           Next.js project.
         </p>
         <div
           className="mx-auto mt-6 flex animate-fade-up items-center justify-center space-x-5 opacity-0"
-          style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}
+          style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}
         >
           <a
             className="group flex max-w-fit items-center justify-center space-x-2 rounded-full border border-black bg-black px-5 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
@@ -84,23 +84,23 @@ export default async function Home() {
           >
             <Github />
             <p>
-              <span className="hidden sm:inline-block">Star on</span> GitHub{" "}
+              <span className="hidden sm:inline-block">Star on</span> GitHub{' '}
               <span className="font-semibold">{nFormatter(stars)}</span>
             </p>
           </a>
         </div>
       </div>
       <div className="my-10 grid w-full max-w-screen-xl animate-fade-up grid-cols-1 gap-5 px-5 md:grid-cols-3 xl:px-0">
-        {features.map(({ title, description, demo, large }) => (
+        {features.map(({ title, description, head, large }) => (
           <Card
             key={title}
             title={title}
             description={description}
-            demo={
-              title === "Beautiful, reusable components" ? (
+            head={
+              title === 'Beautiful, reusable components' ? (
                 <ComponentGrid />
               ) : (
-                demo
+                head
               )
             }
             large={large}
@@ -113,22 +113,22 @@ export default async function Home() {
 
 const features = [
   {
-    title: "Beautiful, reusable components",
+    title: 'Beautiful, reusable components',
     description:
-      "Pre-built beautiful, a11y-first components, powered by [Tailwind CSS](https://tailwindcss.com/), [Radix UI](https://www.radix-ui.com/), and [Framer Motion](https://framer.com/motion)",
+      'Pre-built beautiful, a11y-first components, powered by [Tailwind CSS](https://tailwindcss.com/), [Radix UI](https://www.radix-ui.com/), and [Framer Motion](https://framer.com/motion)',
     large: true,
   },
   {
-    title: "Performance first",
+    title: 'Performance first',
     description:
-      "Built on [Next.js](https://nextjs.org/) primitives like `@next/font` and `next/image` for stellar performance.",
-    demo: <WebVitals />,
+      'Built on [Next.js](https://nextjs.org/) primitives like `@next/font` and `next/image` for stellar performance.',
+    head: <WebVitals />,
   },
   {
-    title: "One-click Deploy",
+    title: 'One-click Deploy',
     description:
-      "Jumpstart your next project by deploying Precedent to [Vercel](https://vercel.com/) in one click.",
-    demo: (
+      'Jumpstart your next project by deploying Precedent to [Vercel](https://vercel.com/) in one click.',
+    head: (
       <a href={DEPLOY_URL}>
         <Image
           src="https://vercel.com/button"
@@ -141,10 +141,10 @@ const features = [
     ),
   },
   {
-    title: "Built-in Auth + Database",
+    title: 'Built-in Auth + Database',
     description:
-      "Precedent comes with authentication and database via [Auth.js](https://authjs.dev/) + [Prisma](https://prisma.io/)",
-    demo: (
+      'Precedent comes with authentication and database via [Auth.js](https://authjs.dev/) + [Prisma](https://prisma.io/)',
+    head: (
       <div className="flex items-center justify-center space-x-20">
         <Image alt="Auth.js logo" src="/authjs.webp" width={50} height={50} />
         <Image alt="Prisma logo" src="/prisma.svg" width={50} height={50} />
@@ -152,10 +152,10 @@ const features = [
     ),
   },
   {
-    title: "Hooks, utilities, and more",
+    title: 'Hooks, utilities, and more',
     description:
-      "Precedent offers a collection of hooks, utilities, and `@vercel/og`",
-    demo: (
+      'Precedent offers a collection of hooks, utilities, and `@vercel/og`',
+    head: (
       <div className="grid grid-flow-col grid-rows-3 gap-10 p-10">
         <span className="font-mono font-semibold">useIntersectionObserver</span>
         <span className="font-mono font-semibold">useLocalStorage</span>
