@@ -3,6 +3,10 @@ import { Server, Socket } from 'socket.io';
 import {
   catchAndSendChatMessage,
   catchAndSendCreatedMsg,
+  catchDisconnect,
+  catchJoinRoom,
+  catchReconnect,
+  catchRoomMessageAndNotify,
 } from '@/lib/utils/socket.utils';
 import { NextApiRequest } from 'next';
 import { NextApiResponseServerIO } from '@/lib/types';
@@ -26,7 +30,13 @@ export default function handler(
     console.log('New connection', socket.id);
     // catch message channel here.
     catchAndSendCreatedMsg(io, socket);
+    catchJoinRoom(io, socket);
+    catchRoomMessageAndNotify(io, socket);
+
     catchAndSendChatMessage(io, socket);
+
+    catchReconnect(io, socket);
+    catchDisconnect(io, socket);
   };
 
   io.on('connection', onConnection);

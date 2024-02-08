@@ -9,14 +9,56 @@ function catchAndSendCreatedMsg(io: Server, socket: Socket) {
   socket.on('createdMessage', createdMessage);
 }
 
+function catchJoinRoom(io: Server, socket: Socket) {
+  const joinRoom = (room: string) => {
+    socket.join(room);
+
+    socket.in(room).emit('room', { room, message: 'new member' });
+  };
+
+  socket.on('join', joinRoom);
+}
+
 function catchAndSendChatMessage(io: Server, socket: Socket) {
   const chatMessage = (msg: string) => {
-    console.log('chatMessage: ' + msg);
-
     socket.broadcast.emit('newIncomingMessage', msg);
   };
 
   socket.on('chat', chatMessage);
 }
 
-export { catchAndSendChatMessage, catchAndSendCreatedMsg };
+function catchRoomMessageAndNotify(io: Server, socket: Socket) {
+  const catchAndNotify = (msg: {
+    room: string;
+    message: number | boolean | string | object;
+  }) => {
+    socket.in(msg.room).emit('room', msg.message);
+  };
+
+  socket.on('room', catchAndNotify);
+}
+
+function catchReconnect(io: Server, socket: Socket) {
+  const onReconnection = (socket: Socket) => {
+    console.log('Reconnect', socket.id);
+  };
+
+  socket.on('chat', onReconnection);
+}
+
+function catchDisconnect(io: Server, socket: Socket) {
+  const onDisconnection = () => {
+    console.log('Disconnection');
+  };
+
+  socket.on('chat', onDisconnection);
+}
+
+export {
+  catchAndSendChatMessage,
+  catchJoinRoom,
+  catchAndSendCreatedMsg,
+  catchReconnect,
+  catchDisconnect,
+  catchRoomMessageAndNotify,
+};

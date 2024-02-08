@@ -11,10 +11,14 @@ export default function WhoIsSpy() {
   const [currentMessage, setCurrentMessage] = useState('');
 
   // Create a socket connection
-  const socketRef = useRef<Socket<DefaultEventsMap, DefaultEventsMap> | null>(null);
+  const socketRef = useRef<Socket<DefaultEventsMap, DefaultEventsMap> | null>(
+    null,
+  );
 
   useEffect(() => {
-    socketInitializer();
+    if (!socketRef.current) {
+      socketInitializer();
+    }
 
     return () => {
       socketRef.current?.disconnect();
@@ -25,6 +29,8 @@ export default function WhoIsSpy() {
     // We call this just to make sure we turn on the websocket server
     await fetch('/api/socket');
 
+    console.log('connect to socket');
+
     socketRef.current = io({
       path: '/api/socket.io',
       transports: ['polling', 'websocket', 'webtransport'],
@@ -32,12 +38,17 @@ export default function WhoIsSpy() {
 
     socketRef.current.on('connect', () => {
       console.log('connected');
+      socketRef.current?.emit('join', 'who-is-spy');
     });
 
     // catch server message
     socketRef.current.on('newIncomingMessage', (msg) => {
       console.log('New message in client', msg);
       setMessages((pre) => [...pre, msg]);
+    });
+
+    socketRef.current.on('room', (msg) => {
+      console.log('New Room message', msg);
     });
   };
 
@@ -46,6 +57,15 @@ export default function WhoIsSpy() {
     // Send the message to the server
     // socketRef.current?.emit('createdMessage', currentMessage);
     socketRef.current?.emit('chat', currentMessage);
+    // Clear the currentMessage state
+    setCurrentMessage('');
+  };
+
+  const sendRoomMessage = () => {
+    console.log('message from room client', currentMessage);
+    // Send the message to the server
+    // socketRef.current?.emit('createdMessage', currentMessage);
+    socketRef.current?.emit('room', {room: 'who-is-spy', message: currentMessage});
     // Clear the currentMessage state
     setCurrentMessage('');
   };
@@ -66,6 +86,7 @@ export default function WhoIsSpy() {
 
       {/* Button to submit the new message */}
       <button onClick={sendMessage}>Send</button>
+      <button onClick={sendRoomMessage}>Send Room Message</button>
     </div>
   );
 }
